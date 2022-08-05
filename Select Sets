@@ -1,0 +1,75 @@
+Public objSelection, objSelection2 As AcadSelectionSet
+Public objSelection1 As AcadSelectionSet
+Public objSelections As AcadSelectionSets 'Variable for the general selection set
+Dim varDim(301, 3), ArrDL(50), ArrDC(50), PageIndex(0 To 300, 0 To 4)
+
+Public Function CreateSelectionSets() As Boolean 'Creates the most general selection set for the declared types
+
+'On Error Resume Next
+    
+    'Define selections
+    Dim varObjectsList(51) As Variant
+    Dim varObject As Variant
+    Dim x As Long
+
+    varObjectsList(0) = "OUT_REF_DL"
+    varObjectsList(1) = "OUT_REF_DC"
+    varObjectsList(2) = "IN_REF_DL"
+    varObjectsList(3) = "IN_REF_DC"
+    varObjectsList(4) = "ENTRADA_DIGITAL"
+    varObjectsList(5) = "SAIDA_DIGITAL"
+    varObjectsList(6) = "TIMER"
+    varObjectsList(7) = "PULSO"
+    varObjectsList(8) = "PVF"
+    varObjectsList(9) = "AUXILIAR"
+    varObjectsList(10) = "ALARME"
+    varObjectsList(11) = "ESTADO"
+    varObjectsList(12) = "COMANDO_CXS"
+    varObjectsList(13) = "COMANDO_CXI"
+    varObjectsList(14) = "COMANDO"
+    varObjectsList(15) = "MEDIDA"
+    varObjectsList(16) = "SETPOINT"
+    varObjectsList(17) = "ENTRADA_ANALOGICA"
+    varObjectsList(18) = "ENTRADA_ANALOGICA_REDE"
+    varObjectsList(19) = "FOLHA_DIAGRAMA_R02"
+    varObjectsList(20) = "ALARME_II"
+    varObjectsList(21) = "ESTADO_II"
+    varObjectsList(22) = "COMANDO_II"
+    varObjectsList(23) = "MEDIDA_II"
+    varObjectsList(24) = "OPERACAO"
+    varObjectsList(25) = "AUXILIAR_II"
+    varObjectsList(26) = "MEDIDA_III"
+    varObjectsList(27) = "SETPOINT_S"
+    varObjectsList(28) = "COM_OUT"
+    varObjectsList(29) = "COM_IN_DC"
+    varObjectsList(30) = "COM_IN_DL"
+    varObjectsList(31) = "SETPOINT_FATOR"
+    varObjectsList(32) = "MEDIDA_OUT"
+    varObjectsList(33) = "MEDIDA3"
+    varObjectsList(34) = "ESTADO3"
+    varObjectsList(35) = "ALARME3"
+    varObjectsList(36) = "REF_ORRIGEM"
+    varObjectsList(37) = "ALARME_OUT"
+    varObjectsList(38) = "ALARME_OUT_H"
+    varObjectsList(39) = "ESTADO_OUT"
+    varObjectsList(40) = "ESTADO_OUT_V"
+    varObjectsList(41) = "ESTADO2"
+    varObjectsList(42) = "ALARME2"
+    varObjectsList(43) = "MEDIDA1"
+    varObjectsList(44) = "SPT_O"
+    varObjectsList(45) = "CMD1"
+    varObjectsList(46) = "SETPOINT_OUT"
+    varObjectsList(47) = "COMANDO_OUT"
+    varObjectsList(48) = "SUP_HORv2"
+    varObjectsList(49) = "SUP_DIG_HORv2"
+    varObjectsList(50) = "TEXTO_INDEXDL_R00"
+    varObjectsList(51) = "TEXTO_INDEXDC_R00"
+    
+    
+    For Each varObject In varObjectsList
+        Set objSelection = ThisDrawing.SelectionSets.Add(CStr(varObject))
+    Next varObject
+    
+    'Get all of the drawing's selection sets to the Collection
+    Set objSelections = ThisDrawing.SelectionSets
+End Function
