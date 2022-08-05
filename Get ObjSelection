@@ -1,0 +1,14 @@
+Public Function GetObjectSelectionSet(ByVal objType As String, ByRef adSS As AcadSelectionSet) As Boolean
+   'Gets a given object selection set for Autocad - filter by objType
+    Dim fType(0) As Integer
+    Dim fData(0) As Variant
+    Set adSS = objSelections.Item(objType) 'Explore variable created on CreateSelectionSets() call
+    adSS.Clear
+    fType(0) = 2: fData(0) = objType
+    'Const acSelectionSetAll = 5
+    adSS.Select acSelectionSetAll, , , fType, fData 'uses the method Select present in the AcadSelectionSet definition: Select(Mode As AcSelect, [Point1], [Point2], [FilterType], [FilterData])
+                                                    'basically extracts certain objects from the main selection set. In this case only those typed as the variable objType
+                                                    'equals: adSS.Select 5, , , 2, objType
+                                                    'loads the result into adSS
+    GetObjectSelectionSet = True 'well succeeded return
+End Function
