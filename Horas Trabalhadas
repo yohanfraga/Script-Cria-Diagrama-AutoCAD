@@ -1,0 +1,131 @@
+Sub horastrabalhadas(area, clp, x, z, pgdc)
+    
+    Dim objSelection10 As AcadSelectionSet
+    Dim objBRef1 As AcadBlockReference
+    Dim objBRef2 As AcadBlockReference
+    Dim varInsertionPoint(2) As Double
+    Dim linePointSTR(2) As Double
+    Dim linePointEND(2) As Double
+    Dim objInsertionPoint(2) As Double
+    Dim varAttribs1 As Variant
+    
+    On Error Resume Next
+    Err.Clear
+    Set excelApp = GetObject("D:\Teste.xlsx", "Excel.Application")
+    excelApp.Visible = True
+    Set shtObj = excelApp.Worksheets(1)
+    Set shtObj2 = excelApp.Worksheets(2)
+    Set shtObj3 = excelApp.Worksheets(3)
+    
+    pgdc = pgdc
+        
+    JUNK = CreateSelectionSets()
+    JUNK = GetObjectSelectionSet(CStr("FOLHA_DIAGRAMA_R02"), objSelection10)
+            
+    For Each objBRef1 In objSelection10
+        varAttribs1 = objBRef1.GetAttributes
+        If varAttribs1(0).TextString = "DC" Then
+            If varAttribs1(3).TextString = CStr(pgdc) Then
+                varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                varAttribs1(5).TextString = UCase(shtObj3.Cells(7, x).Value) + " - HORAS TRABALHADAS"
+                addpg = 1
+            End If
+        End If
+    Next objBRef1
+            
+    If addpg = 0 Then
+        addpage objSelection10, area, clp, "DC", pgdc
+    End If
+            
+    JUNK = CreateSelectionSets()
+    JUNK = GetObjectSelectionSet(CStr("FOLHA_DIAGRAMA_R02"), objSelection10)
+            
+    For Each objBRef1 In objSelection10
+        varAttribs1 = objBRef1.GetAttributes
+        If varAttribs1(0).TextString = "DC" Then
+            If varAttribs1(3).TextString = CStr(pgdc) Then
+                varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                varAttribs1(5).TextString = UCase(shtObj3.Cells(7, x).Value) + " - HORAS TRABALHADAS"
+                addpg = 0
+            End If
+        End If
+    Next objBRef1
+            
+    b = 0
+    b = CLng(shtObj3.Cells(7, x + 2).Value)
+    z = 13
+    For i = 1 To b
+            
+        Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "TEMPO_OPER_R00", 1, 1, 1, 0)
+        ExpBlock objBRef1
+            
+        objInsertionPoint(0) = varInsertionPoint(0) + 56.0066
+        objInsertionPoint(1) = varInsertionPoint(1) - 72.7071
+        objInsertionPoint(2) = 0
+        Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "COMANDO_II", 1, 1, 1, 0)
+        varAttribs1 = objBRef1.GetAttributes
+        varAttribs1(0).TextString = "E" + area + clp + UCase(shtObj3.Cells(7, x + 3).Value) + UCase("B0" + CStr(i)) + "HS04"
+        varAttribs1(1).TextString = UCase(shtObj3.Cells(z, x).Value)
+        varAttribs1(2).TextString = "RESET TEMPO OPERAÇÃO"
+        varAttribs1(3).TextString = "%M32"
+            
+        objInsertionPoint(0) = objInsertionPoint(0) + 17.815
+        objInsertionPoint(1) = objInsertionPoint(1) + 17.3041
+        objInsertionPoint(2) = 0
+        Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+        varAttribs1 = objBRef1.GetAttributes
+        varAttribs1(0).TextString = UCase(shtObj3.Cells(z, x).Value)
+        varAttribs1(1).TextString = "LIGADO = 1"
+        varAttribs1(2).TextString = "-"
+            
+        objInsertionPoint(0) = objInsertionPoint(0) + 61.1873
+        objInsertionPoint(1) = objInsertionPoint(1) - 7.1118
+        objInsertionPoint(2) = 0
+        ThisDrawing.ModelSpace.AddText(UCase("B0" + CStr(i)), objInsertionPoint, 2).Layer = "DESENHO_TEXTO"
+                
+        objInsertionPoint(0) = objInsertionPoint(0) + 11.946
+        objInsertionPoint(1) = objInsertionPoint(1) - 31.6303
+        objInsertionPoint(2) = 0
+        Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "MEDIDA", 1, 1, 1, 0)
+        varAttribs1 = objBRef1.GetAttributes
+        varAttribs1(0).TextString = "E" + area + clp + UCase(shtObj3.Cells(7, x + 3).Value) + UCase("B0" + CStr(i)) + "KQ"
+        varAttribs1(1).TextString = UCase(shtObj3.Cells(z, x).Value)
+        varAttribs1(2).TextString = "HORAS DE OPERAÇÃO"
+        varAttribs1(3).TextString = "%MF206"
+        varAttribs1(4).TextString = "horas"
+            
+        objInsertionPoint(0) = objInsertionPoint(0) - 3.6806
+        objInsertionPoint(1) = objInsertionPoint(1) - 17.1469
+        objInsertionPoint(2) = 0
+        ThisDrawing.ModelSpace.AddText(UCase("E" + area + clp + UCase(shtObj3.Cells(7, x + 3).Value) + UCase("B0" + CStr(i)) + "KQ"), objInsertionPoint, 2).Layer = "DESENHO_TEXTO"
+            
+        If i Mod 2 = 0 Then
+            varInsertionPoint(0) = varInsertionPoint(0) - 210
+            varInsertionPoint(1) = varInsertionPoint(1) - 120.7541
+        Else
+            varInsertionPoint(0) = varInsertionPoint(0) + 210
+        End If
+        If i Mod 4 = 0 Then
+            pgdc = pgdc + 1
+            For Each objBRef1 In objSelection10
+                varAttribs1 = objBRef1.GetAttributes
+                If varAttribs1(0).TextString = "DC" Then
+                    If varAttribs1(3).TextString = CStr(pgdc) Then
+                        varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                        varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                        varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                        varAttribs1(5).TextString = UCase(shtObj3.Cells(7, x).Value) + " - HORAS TRABALHADAS"
+                        addpg = 0
+                    End If
+                End If
+            Next objBRef1
+        End If
+            
+        z = z + 6
+    Next i
+    JUNK = DeleteSelectionSets()
+End Sub
