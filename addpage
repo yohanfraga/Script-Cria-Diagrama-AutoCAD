@@ -1,0 +1,133 @@
+Sub addpage(objSelection10, area, clp, dlc, ipg)
+    
+    Dim objBRef1 As AcadBlockReference
+    Dim pgInsertionPoint(2) As Double
+    Dim linePointSTR(2) As Double
+    Dim objInsertionPoint(2) As Double
+    Dim addpage As Integer
+    
+    Set shtObj = excelApp.Worksheets(1)
+    Set shtObj2 = excelApp.Worksheets(2)
+    Set shtObj3 = excelApp.Worksheets(3)
+    
+    addpage = 0
+    If dlc = "DL" Then
+        n1 = 1
+        For Each objBRef1 In objSelection10
+            varAttribs1 = objBRef1.GetAttributes
+            If varAttribs1(0).TextString = "DL" Then
+                If varAttribs1(3).TextString <> "" Then
+                    n1 = n1 + 1
+                End If
+            End If
+        Next objBRef1
+        n1 = n1 - 2
+                
+        For Each objBRef1 In objSelection10
+            varAttribs1 = objBRef1.GetAttributes
+            If varAttribs1(0).TextString = "DL" Then
+                If varAttribs1(3).TextString = CStr(n1) Then
+                    pgInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                    pgInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                    pgInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                    Exit For
+                End If
+            End If
+        Next objBRef1
+                
+               
+        objInsertionPoint(0) = pgInsertionPoint(0) - 4230
+        objInsertionPoint(1) = pgInsertionPoint(1) - 427
+        While addpage = 0
+            For j = 0 To 9
+                n1 = n1 + 1
+                If n1 = ipg Then
+                    addpage = 1
+                End If
+                Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "FOLHA_DIAGRAMA_R02", 1, 1, 1, 0)
+                varAttribs1 = objBRef1.GetAttributes
+                varAttribs1(0).TextString = "DL"
+                varAttribs1(3).TextString = CStr(n1)
+                varAttribs1(2).TextString = clp
+                varAttribs1(1).TextString = area
+                varAttribs1(4).TextString = UCase(CStr(shtObj.Cells(7, 2).Value + " - " + shtObj.Cells(7, 3).Value + " - " + shtObj.Cells(7, 4).Value + " \ DIAGRAMA LÓGICO"))
+                varAttribs1(5).TextString = "DESCRIÇÃO "
+                        
+                linePointSTR(0) = objInsertionPoint(0) + 150.6281
+                linePointSTR(1) = objInsertionPoint(1) + 31.0895
+                linePointSTR(2) = 0
+                ThisDrawing.ModelSpace.AddText(CStr(n1), linePointSTR, 70).Layer = "30$9$A"
+                        
+                objInsertionPoint(0) = objInsertionPoint(0) + 470
+                objInsertionPoint(1) = objInsertionPoint(1)
+                objInsertionPoint(2) = 0
+                
+                If n1 Mod 10 = 0 Then
+                    objInsertionPoint(0) = objInsertionPoint(0) - 4700
+                    objInsertionPoint(1) = objInsertionPoint(1) - 427
+                    Exit For
+                End If
+            Next j
+        Wend
+    End If
+            
+    If dlc = "DC" Then
+        n1 = 1
+        For Each objBRef1 In objSelection10
+            varAttribs1 = objBRef1.GetAttributes
+            If varAttribs1(0).TextString = "DC" Then
+                If varAttribs1(3).TextString <> "" Then
+                    n1 = n1 + 1
+                End If
+            End If
+        Next objBRef1
+        n1 = n1 - 2
+                
+        For Each objBRef1 In objSelection10
+            varAttribs1 = objBRef1.GetAttributes
+            If varAttribs1(0).TextString = "DC" Then
+                If varAttribs1(3).TextString = CStr(n1) Then
+                    pgInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                    pgInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                    pgInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                    Exit For
+                End If
+            End If
+        Next objBRef1
+                
+        objInsertionPoint(0) = pgInsertionPoint(0) - 4230
+        objInsertionPoint(1) = pgInsertionPoint(1) - 427
+        While addpage = 0
+            For j = 0 To 9
+                n1 = n1 + 1
+                If n1 = ipg Then
+                    addpage = 1
+                End If
+                Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "FOLHA_DIAGRAMA_R02", 1, 1, 1, 0)
+                varAttribs1 = objBRef1.GetAttributes
+                varAttribs1(0).TextString = "DC"
+                varAttribs1(3).TextString = CStr(n1)
+                varAttribs1(2).TextString = clp
+                varAttribs1(1).TextString = area
+                varAttribs1(4).TextString = UCase(CStr(shtObj.Cells(7, 2).Value + " - " + shtObj.Cells(7, 3).Value + " - " + shtObj.Cells(7, 4).Value + " \ DIAGRAMA LÓGICO"))
+                varAttribs1(5).TextString = "DESCRIÇÃO "
+                        
+                linePointSTR(0) = objInsertionPoint(0) + 150.6281
+                linePointSTR(1) = objInsertionPoint(1) + 31.0895
+                linePointSTR(2) = 0
+                ThisDrawing.ModelSpace.AddText(CStr(n1), linePointSTR, 70).Layer = "30$9$A"
+                        
+                objInsertionPoint(0) = objInsertionPoint(0) + 470
+                objInsertionPoint(1) = objInsertionPoint(1)
+                objInsertionPoint(2) = 0
+                
+                If n1 Mod 10 = 0 Then
+                    objInsertionPoint(0) = objInsertionPoint(0) - 4700
+                    objInsertionPoint(1) = objInsertionPoint(1) - 427
+                    Exit For
+                End If
+            Next j
+        Wend
+    End If
+    JUNK = DeleteSelectionSets()
+End Sub
