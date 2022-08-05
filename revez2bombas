@@ -1,0 +1,798 @@
+Sub revez2Bombas(area, clp, x, pg)
+    
+    Dim objSelection10 As AcadSelectionSet
+    Dim objBRef1 As AcadBlockReference
+    Dim objBRef2 As AcadBlockReference
+    Dim varInsertionPoint(2) As Double
+    Dim linePointSTR(2) As Double
+    Dim linePointEND(2) As Double
+    Dim objInsertionPoint(2) As Double
+    Dim varAttribs1 As Variant
+    
+    On Error Resume Next
+    Err.Clear
+    Set excelApp = GetObject("D:\Teste.xlsx", "Excel.Application")
+    excelApp.Visible = True
+    Set shtObj = excelApp.Worksheets(1)
+    Set shtObj2 = excelApp.Worksheets(2)
+    Set shtObj3 = excelApp.Worksheets(3)
+    
+    
+    If shtObj3.Cells(7, x + 4).Value = "Sim, 2 Bombas" Then
+    
+        JUNK = CreateSelectionSets()
+        JUNK = GetObjectSelectionSet(CStr("FOLHA_DIAGRAMA_R02"), objSelection10)
+        For Each objBRef1 In objSelection10
+            varAttribs1 = objBRef1.GetAttributes
+            If varAttribs1(0).TextString = "DL" Then
+                If varAttribs1(3).TextString = CStr(pg) Then
+                    varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                    varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                    varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                    varAttribs1(5).TextString = UCase(shtObj3.Cells(7, x).Value) + " - REVEZAMENTO DE BOMBAS"
+                    addpg = 1
+                End If
+            End If
+        Next objBRef1
+        If addpg = 0 Then
+            addpage objSelection10, area, clp, "DL", pg
+        End If
+        JUNK = CreateSelectionSets()
+        JUNK = GetObjectSelectionSet(CStr("FOLHA_DIAGRAMA_R02"), objSelection10)
+        For Each objBRef1 In objSelection10
+            varAttribs1 = objBRef1.GetAttributes
+            If varAttribs1(0).TextString = "DL" Then
+                If varAttribs1(3).TextString = CStr(pg) Then
+                    varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                    varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                    varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                    varAttribs1(5).TextString = UCase(shtObj3.Cells(7, x).Value) + " - REVEZAMENTO DE BOMBAS"
+                    addpg = 0
+                End If
+            End If
+        Next objBRef1
+            
+        Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "REVEZAMENTO_2BOMBAS_R00", 1, 1, 1, 0)
+        ExpBlock objBRef1
+            
+        objInsertionPoint(0) = varInsertionPoint(0) + 47.1702
+        objInsertionPoint(1) = varInsertionPoint(1) - 21.666
+        objInsertionPoint(2) = 0
+        Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+        varAttribs1 = objBRef1.GetAttributes
+        varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+        varAttribs1(1).TextString = "OK PARA OPERAÇÃO = 1"
+        varAttribs1(2).TextString = CStr(pg + 2) + "B"
+            
+        objInsertionPoint(0) = objInsertionPoint(0)
+        objInsertionPoint(1) = objInsertionPoint(1) - 14.7546
+        objInsertionPoint(2) = 0
+        Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+        varAttribs1 = objBRef1.GetAttributes
+        varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+        varAttribs1(1).TextString = "OK PARA OPERAÇÃO = 1"
+        varAttribs1(2).TextString = CStr(pg + 5) + "B"
+            
+        objInsertionPoint(0) = objInsertionPoint(0)
+        objInsertionPoint(1) = objInsertionPoint(1) - 57.3433
+        objInsertionPoint(2) = 0
+        Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DC", 1, 1, 1, 0)
+        varAttribs1 = objBRef1.GetAttributes
+        varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+        varAttribs1(1).TextString = "SELECIONADA COMO PRINCIPAL = 1"
+        varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 16.9323
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "SELECIONADA COMO PRINCIPAL = 1"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 33.0754
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "SELECIONADA COMO COMPLEMENTAR = 1"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 31.5245
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "SELECIONADA COMO COMPLEMENTAR = 1"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 20.0066
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "LIGADO = 1"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 12
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "LIGADO = 1"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0) + 237.1093
+            objInsertionPoint(1) = objInsertionPoint(1) + 48.2653
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "ESTADO_II", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = "E" + area + clp + UCase(shtObj3.Cells(7, x + 3).Value) + "B02CMP"
+            varAttribs1(1).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(2).TextString = "COMPLEMENTAR"
+            varAttribs1(3).TextString = "%MW53:X5"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 31.5245
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "ESTADO_II", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = "E" + area + clp + UCase(shtObj3.Cells(7, x + 3).Value) + "B01CMP"
+            varAttribs1(1).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(2).TextString = "COMPLEMENTAR"
+            varAttribs1(3).TextString = "%MW52:X9"
+            
+            objInsertionPoint(0) = objInsertionPoint(0) - 0.3911
+            objInsertionPoint(1) = objInsertionPoint(1) + 33.0755
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "ESTADO_II", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = "E" + area + clp + UCase(shtObj3.Cells(7, x + 3).Value) + "B02PRN"
+            varAttribs1(1).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(2).TextString = "PRINCIPAL"
+            varAttribs1(3).TextString = "%MW53:X11"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 16.9323
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "ESTADO_II", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = "E" + area + clp + UCase(shtObj3.Cells(7, x + 3).Value) + "B01PRN"
+            varAttribs1(1).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(2).TextString = "PRINCIPAL"
+            varAttribs1(3).TextString = "%MW53:X11"
+            
+            objInsertionPoint(0) = objInsertionPoint(0) + 97.8481
+            objInsertionPoint(1) = objInsertionPoint(1) + 16.9036
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value) + " E " + UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "EM FALHA"
+            varAttribs1(2).TextString = CStr(pg) + "A"
+            varAttribs1(3).TextString = "%M280"
+            varAttribs1(4).TextString = "-"
+            varAttribs1(5).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 27.1624
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "SEL PRINCIPAL"
+            varAttribs1(2).TextString = CStr(pg) + "B"
+            varAttribs1(3).TextString = "%M281"
+            varAttribs1(4).TextString = "-"
+            varAttribs1(5).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 16.9323
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "SEL PRINCIPAL"
+            varAttribs1(2).TextString = CStr(pg) + "C"
+            varAttribs1(3).TextString = "%M282"
+            varAttribs1(4).TextString = "-"
+            varAttribs1(5).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 33.0754
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "SEL COMPLEMENTAR"
+            varAttribs1(2).TextString = CStr(pg) + "D"
+            varAttribs1(3).TextString = "%M283"
+            varAttribs1(4).TextString = "-"
+            varAttribs1(5).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 31.5245
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "SEL COMPLEMENTAR"
+            varAttribs1(2).TextString = CStr(pg) + "E"
+            varAttribs1(3).TextString = "%M281"
+            varAttribs1(4).TextString = "-"
+            varAttribs1(5).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 31.7854
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(7, x).Value)
+            varAttribs1(1).TextString = "TODAS AS BOMBAS DESLIGADAS"
+            varAttribs1(2).TextString = CStr(pg) + "F"
+            varAttribs1(3).TextString = "%M281"
+            varAttribs1(4).TextString = "-"
+            varAttribs1(5).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 44.8101
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(7, x).Value)
+            varAttribs1(1).TextString = "TODAS AS BOMBAS OK"
+            varAttribs1(2).TextString = CStr(pg) + "G"
+            varAttribs1(3).TextString = "%M281"
+            varAttribs1(4).TextString = "-"
+            varAttribs1(5).TextString = "-"
+            
+            pg = pg + 1
+            For Each objBRef1 In objSelection10
+            
+                varAttribs1 = objBRef1.GetAttributes
+                If varAttribs1(0).TextString = "DL" Then
+                    If varAttribs1(3).TextString = CStr(pg) Then
+                        varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                        varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                        varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                        varAttribs1(5).TextString = UCase(shtObj3.Cells(7, x).Value) + " - REVEZAMENTO DE BOMBAS"
+                    End If
+                End If
+            
+            Next objBRef1
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "REVEZAMENTO_2BOMBAS2_R00", 1, 1, 1, 0)
+            ExpBlock objBRef1
+            
+            objInsertionPoint(0) = varInsertionPoint(0) + 60.6083
+            objInsertionPoint(1) = varInsertionPoint(1) - 42.9377
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "SEL PRINCIPAL"
+            varAttribs1(2).TextString = CStr(pg - 1) + "C"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 37.7154
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "LIGADO = 1"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 27
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "OK PARA OPERAÇÃO = 1"
+            varAttribs1(2).TextString = CStr(pg + 4) + "B"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 30
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "OK PARA OPERAÇÃO = 1"
+            varAttribs1(2).TextString = CStr(pg + 1) + "B"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 32
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "LIGADO = 1"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 31.9901
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "SEL PRINCIPAL"
+            varAttribs1(2).TextString = CStr(pg - 1) + "B"
+            
+            objInsertionPoint(0) = objInsertionPoint(0) + 307
+            objInsertionPoint(1) = objInsertionPoint(1) + 40.4892
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "PRINCIPAL"
+            varAttribs1(2).TextString = CStr(pg) + "A"
+            varAttribs1(3).TextString = "%M219"
+            varAttribs1(4).TextString = "-"
+            varAttribs1(5).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 17.501
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "COMPLEMENTAR"
+            varAttribs1(2).TextString = CStr(pg) + "C"
+            varAttribs1(3).TextString = "%M251"
+            varAttribs1(4).TextString = "-"
+            varAttribs1(5).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 42
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "COMPLEMENTAR"
+            varAttribs1(2).TextString = CStr(pg) + "D"
+            varAttribs1(3).TextString = "%M250"
+            varAttribs1(4).TextString = "-"
+            varAttribs1(5).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 17.499
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "PRINCIPAL"
+            varAttribs1(2).TextString = CStr(pg) + "B"
+            varAttribs1(3).TextString = "%M218"
+            varAttribs1(4).TextString = "-"
+            varAttribs1(5).TextString = "-"
+            
+            pg = pg + 1
+        End If
+    
+    JUNK = CreateSelectionSets()
+    JUNK = GetObjectSelectionSet(CStr("FOLHA_DIAGRAMA_R02"), objSelection10)
+    If shtObj3.Cells(7, x + 4).Value = "Sim, 2 Bombas" Then
+        
+            pgdc = CLng(shtObj3.Cells(13, x + 5).Value) + 10
+            For Each objBRef1 In objSelection10
+                varAttribs1 = objBRef1.GetAttributes
+                If varAttribs1(0).TextString = "DC" Then
+                    If varAttribs1(3).TextString = CStr(pgdc) Then
+                        varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                        varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                        varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                        varAttribs1(5).TextString = UCase(shtObj3.Cells(7, x).Value) + " - SELEÇÃO DE BOMBAS"
+                        addpg = 1
+                    End If
+                End If
+            Next objBRef1
+            
+            If addpg = 0 Then
+                addpage objSelection10, area, clp, "DC", pgdc
+            End If
+            
+            JUNK = CreateSelectionSets()
+            JUNK = GetObjectSelectionSet(CStr("FOLHA_DIAGRAMA_R02"), objSelection10)
+                
+            For Each objBRef1 In objSelection10
+                
+                varAttribs1 = objBRef1.GetAttributes
+                If varAttribs1(0).TextString = "DC" Then
+                    If varAttribs1(3).TextString = CStr(pgdc) Then
+                        varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                        varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                        varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                        varAttribs1(5).TextString = UCase(shtObj3.Cells(7, x).Value) + " - SELEÇÃO DE BOMBAS"
+                        addpg = 0
+                    End If
+                End If
+                    
+                Next objBRef1
+            
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "SELECAO_2BOMBAS_R00", 1, 1, 1, 0)
+            ExpBlock objBRef1
+            
+            objInsertionPoint(0) = varInsertionPoint(0) + 85.6863
+            objInsertionPoint(1) = varInsertionPoint(1) - 31.9745
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "COMANDO_CXS", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = "E" + area + clp + UCase(shtObj3.Cells(7, x + 3).Value) + "B01" + "HS05"
+            varAttribs1(1).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(2).TextString = "ESTADO INICIAL B01 PRINCIPAL"
+            varAttribs1(3).TextString = "%M1589"
+            
+            objInsertionPoint(0) = objInsertionPoint(0) - 44.9768
+            objInsertionPoint(1) = objInsertionPoint(1) - 14.5866
+            objInsertionPoint(2) = 0
+            ThisDrawing.ModelSpace.AddText(UCase(CStr(shtObj3.Cells(13, x).Value)), objInsertionPoint, 2).Layer = "DESENHO_TEXTO"
+            
+            objInsertionPoint(0) = objInsertionPoint(0) + 44.9768
+            objInsertionPoint(1) = objInsertionPoint(1) - 40.4889
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "COMANDO_CXS", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = "E" + area + clp + UCase(shtObj3.Cells(7, x + 3).Value) + "B02" + "HS05"
+            varAttribs1(1).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(2).TextString = "ESTADO INICIAL B01 PRINCIPAL"
+            varAttribs1(3).TextString = "%M1590"
+            
+            objInsertionPoint(0) = objInsertionPoint(0) - 44.9768
+            objInsertionPoint(1) = objInsertionPoint(1) - 14.5866
+            objInsertionPoint(2) = 0
+            ThisDrawing.ModelSpace.AddText(UCase(CStr(shtObj3.Cells(13, x).Value)), objInsertionPoint, 2).Layer = "DESENHO_TEXTO"
+             
+            objInsertionPoint(0) = objInsertionPoint(0) - 3.9151
+            objInsertionPoint(1) = objInsertionPoint(1) - 84.6002
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "LIGADO = 1"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 22.8624
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "LIGADO = 1"
+            varAttribs1(2).TextString = "-"
+        
+            objInsertionPoint(0) = objInsertionPoint(0) + 344.2356
+            objInsertionPoint(1) = objInsertionPoint(1) + 0.3773
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "TEMPO DELAY"
+            varAttribs1(2).TextString = CStr(pgdc) + "B"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+       
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 36.7087
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "TEMPO DELAY"
+            varAttribs1(2).TextString = CStr(pgdc) + "A"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0) - 2.0295
+            objInsertionPoint(1) = objInsertionPoint(1) + 79.3671
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "INDICAÇÃO INICIAL DE PRINCIPAL"
+            varAttribs1(2).TextString = CStr(pgdc) + "D"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+       
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 55.0755
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "INDICAÇÃO INICIAL DE PRINCIPAL"
+            varAttribs1(2).TextString = CStr(pgdc) + "C"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+            
+            pgdc = pgdc + 1
+            For Each objBRef1 In objSelection10
+                varAttribs1 = objBRef1.GetAttributes
+                If varAttribs1(0).TextString = "DC" Then
+                    If varAttribs1(3).TextString = CStr(pgdc) Then
+                        varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                        varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                        varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                        varAttribs1(5).TextString = UCase(shtObj3.Cells(7, x).Value) + " - SELEÇÃO DE BOMBAS"
+                    End If
+                End If
+            Next objBRef1
+            
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "SELECAO_2BOMBAS2_R00", 1, 1, 1, 0)
+            ExpBlock objBRef1
+            
+            objInsertionPoint(0) = varInsertionPoint(0) + 42.1712
+            objInsertionPoint(1) = varInsertionPoint(1) - 33.6758
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "TEMPO DELAY"
+            varAttribs1(2).TextString = "-"
+       
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 40.878
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(7, x).Value)
+            varAttribs1(1).TextString = "INTERTRAVAMENTO DE PROCESSO"
+            varAttribs1(2).TextString = "-"
+       
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 19.4083
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "OK PARA OPERAÇÃO = 1"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 57.6298
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "TEMPO DELAY"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 60.2863
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DL", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "OK PARA OPERAÇÃO = 1"
+            varAttribs1(2).TextString = "-"
+       
+            objInsertionPoint(0) = objInsertionPoint(0) + 333.3997
+            objInsertionPoint(1) = objInsertionPoint(1) + 40.6081
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "TEMPO DE EXISTÊNCIA"
+            varAttribs1(2).TextString = CStr(pgdc) + "B"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+       
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 117.9161
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "TEMPO DE EXISTÊNCIA"
+            varAttribs1(2).TextString = CStr(pgdc) + "A"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+       
+            pgdc = pgdc + 1
+            For Each objBRef1 In objSelection10
+                varAttribs1 = objBRef1.GetAttributes
+                If varAttribs1(0).TextString = "DC" Then
+                    If varAttribs1(3).TextString = CStr(pgdc) Then
+                        varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                        varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                        varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                        varAttribs1(5).TextString = UCase(shtObj3.Cells(7, x).Value) + " - SELEÇÃO DE BOMBAS"
+                    End If
+                End If
+            Next objBRef1
+            
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "SELECAO_2BOMBAS3_R00", 1, 1, 1, 0)
+            ExpBlock objBRef1
+            
+            objInsertionPoint(0) = varInsertionPoint(0) + 52.0404
+            objInsertionPoint(1) = varInsertionPoint(1) - 36.89
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "TEMPO DE EXISTÊNCIA"
+            varAttribs1(2).TextString = "-"
+       
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 45.3514
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "TEMPO DE EXISTÊNCIA"
+            varAttribs1(2).TextString = "-"
+        
+            objInsertionPoint(0) = objInsertionPoint(0) + 326.6628
+            objInsertionPoint(1) = objInsertionPoint(1) - 117.3704
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(7, x).Value)
+            varAttribs1(1).TextString = "BOMBA COM MENOR TEMPO"
+            varAttribs1(2).TextString = CStr(pgdc) + "D"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 42.0328
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(7, x).Value)
+            varAttribs1(1).TextString = "BOMBA COM MAIOR TEMPO"
+            varAttribs1(2).TextString = CStr(pgdc) + "B"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 42.0328
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(7, x).Value)
+            varAttribs1(1).TextString = "MENOR TEMPO"
+            varAttribs1(2).TextString = CStr(pgdc) + "C"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 42.0328
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(7, x).Value)
+            varAttribs1(1).TextString = "MAIOR TEMPO"
+            varAttribs1(2).TextString = CStr(pgdc) + "A"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+            
+            pgdc = pgdc + 1
+            For Each objBRef1 In objSelection10
+                varAttribs1 = objBRef1.GetAttributes
+                If varAttribs1(0).TextString = "DC" Then
+                    If varAttribs1(3).TextString = CStr(pgdc) Then
+                        varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                        varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                        varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+                        varAttribs1(5).TextString = UCase(shtObj3.Cells(7, x).Value) + " - SELEÇÃO DE BOMBAS"
+                    End If
+                End If
+            Next objBRef1
+            
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "SELECAO_2BOMBAS4_R00", 1, 1, 1, 0)
+            ExpBlock objBRef1
+            
+            objInsertionPoint(0) = varInsertionPoint(0) + 60.789
+            objInsertionPoint(1) = varInsertionPoint(1) - 45.4795
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(7, x).Value)
+            varAttribs1(1).TextString = "BOMBA COM MAIOR TEMPO"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 38.4447
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(7, x).Value)
+            varAttribs1(1).TextString = "MAIOR TEMPO"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 77.4343
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(7, x).Value)
+            varAttribs1(1).TextString = "BOMBA COM MENOR TEMPO"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) - 38.4447
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "IN_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(7, x).Value)
+            varAttribs1(1).TextString = "MENOR TEMPO"
+            varAttribs1(2).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0) + 299.4371
+            objInsertionPoint(1) = objInsertionPoint(1) - 13.081
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "SELECIONADA COMO COMPLEMENTAR = 1"
+            varAttribs1(2).TextString = CStr(pg) + "D"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 32.0175
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "SELECIONADA COMO COMPLEMENTAR = 1"
+            varAttribs1(2).TextString = CStr(pg) + "C"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 83.8614
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(19, x).Value)
+            varAttribs1(1).TextString = "SELECIONADA COMO PRINCIPAL = 1"
+            varAttribs1(2).TextString = CStr(pg) + "B"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+            
+            objInsertionPoint(0) = objInsertionPoint(0)
+            objInsertionPoint(1) = objInsertionPoint(1) + 32.0175
+            objInsertionPoint(2) = 0
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "OUT_REF_DC", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = UCase(shtObj3.Cells(13, x).Value)
+            varAttribs1(1).TextString = "SELECIONADA COMO PRINCIPAL = 1"
+            varAttribs1(2).TextString = CStr(pg) + "A"
+            varAttribs1(3).TextString = ""
+            varAttribs1(4).TextString = ""
+            varAttribs1(5).TextString = "-"
+            varAttribs1(6).TextString = "-"
+            
+        End If
+    JUNK = DeleteSelectionSets()
+End Sub
