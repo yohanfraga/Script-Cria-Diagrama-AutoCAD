@@ -1,0 +1,295 @@
+Sub index(area, clp)
+       
+    Dim objSelection10 As AcadSelectionSet
+    Dim objSelection11 As AcadSelectionSet
+    Dim objBRef1 As AcadBlockReference
+    Dim objBRef2 As AcadBlockReference
+    Dim varInsertionPoint(2) As Double
+    Dim objInsertionPoint(2) As Double
+    Dim varAttribs1 As Variant
+    Dim varAttribs2 As Variant
+    Dim h(50) As Variant
+    
+    On Error Resume Next
+    Err.Clear
+    Set excelApp = GetObject("D:\Teste.xlsx", "Excel.Application")
+    excelApp.Visible = True
+    Set shtObj = excelApp.Worksheets(1)
+    Set shtObj2 = excelApp.Worksheets(2)
+    Set shtObj3 = excelApp.Worksheets(3)
+    
+    n1 = 0
+    JUNK = CreateSelectionSets()
+    JUNK = GetObjectSelectionSet(CStr("FOLHA_DIAGRAMA_R02"), objSelection10)
+    
+    For Each objBRef1 In objSelection10
+        varAttribs1 = objBRef1.GetAttributes
+        If varAttribs1(0).TextString = "DL" Then
+            If CLng(varAttribs1(3).TextString) > n1 Then
+                n1 = CLng(varAttribs1(3).TextString)
+            End If
+        End If
+    Next objBRef1
+        
+    For Each objBRef1 In objSelection10
+        varAttribs1 = objBRef1.GetAttributes
+        If varAttribs1(0).TextString = "DL" Then
+            If varAttribs1(3).TextString = "ÍNDICE" Then
+                varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+            End If
+        End If
+    Next objBRef1
+       
+    objInsertionPoint(0) = varInsertionPoint(0)
+    objInsertionPoint(1) = varInsertionPoint(1)
+    objInsertionPoint(2) = varInsertionPoint(2)
+    Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "INDICE_30_R00", 1, 1, 1, 0)
+    ExpBlock objBRef1
+    varInsertionPoint(0) = varInsertionPoint(0) + 42.4218
+    varInsertionPoint(1) = varInsertionPoint(1) - 39.54
+    varInsertionPoint(2) = varInsertionPoint(2)
+    
+    i = 1
+    While i <= n1
+        If i = 91 Then
+            varInsertionPoint(0) = varInsertionPoint(0) + 183.4824
+            varInsertionPoint(1) = varInsertionPoint(1) + 249.54
+            varInsertionPoint(2) = varInsertionPoint(2)
+            
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "FOLHA_DIAGRAMA_R02", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = "DL"
+            varAttribs1(3).TextString = "ÍNDICE"
+            varAttribs1(2).TextString = clp
+            varAttribs1(1).TextString = area
+            varAttribs1(4).TextString = UCase(CStr(shtObj.Cells(7, 2).Value + " - " + shtObj.Cells(7, 3).Value + " - " + shtObj.Cells(7, 4).Value + " \ DIAGRAMA LÓGICO"))
+            varAttribs1(5).TextString = "ÍNDICE"
+            
+            objInsertionPoint(0) = varInsertionPoint(0)
+            objInsertionPoint(1) = varInsertionPoint(1)
+            objInsertionPoint(2) = varInsertionPoint(2)
+            
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "INDICE_30_R00", 1, 1, 1, 0)
+            ExpBlock objBRef1
+            varInsertionPoint(0) = varInsertionPoint(0) + 42.4218
+            varInsertionPoint(1) = varInsertionPoint(1) - 39.54
+            varInsertionPoint(2) = varInsertionPoint(2)
+            
+            For Each objBRef1 In objSelection10
+                varAttribs1 = objBRef1.GetAttributes
+                If varAttribs1(0).TextString = "DL" Then
+                    If varAttribs1(3).TextString = CStr(i) Then
+                        Exit For
+                    End If
+                End If
+            Next objBRef1
+            Set objBRef2 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "TEXTO_INDEXDL_R00", 1, 1, 1, 0)
+            varAttribs2 = objBRef2.GetAttributes
+            varAttribs2(0).TextString = varAttribs1(5).TextString
+            varAttribs2(1).TextString = CStr(i)
+            varInsertionPoint(0) = varInsertionPoint(0)
+            varInsertionPoint(1) = varInsertionPoint(1) - 7
+            varInsertionPoint(2) = varInsertionPoint(2)
+        Else
+            If i <> 1 And i Mod 30 = 1 Then
+                varInsertionPoint(0) = varInsertionPoint(0) + 79.6261
+                varInsertionPoint(1) = varInsertionPoint(1) + 249.54
+                varInsertionPoint(2) = varInsertionPoint(2)
+                Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "INDICE_30_R00", 1, 1, 1, 0)
+                ExpBlock objBRef1
+                varInsertionPoint(0) = varInsertionPoint(0) + 42.4218
+                varInsertionPoint(1) = varInsertionPoint(1) - 39.54
+                varInsertionPoint(2) = varInsertionPoint(2)
+                For Each objBRef1 In objSelection10
+                    varAttribs1 = objBRef1.GetAttributes
+                    If varAttribs1(0).TextString = "DL" Then
+                        If varAttribs1(3).TextString = CStr(i) Then
+                            Exit For
+                        End If
+                    End If
+                Next objBRef1
+                Set objBRef2 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "TEXTO_INDEXDL_R00", 1, 1, 1, 0)
+                varAttribs2 = objBRef2.GetAttributes
+                varAttribs2(0).TextString = varAttribs1(5).TextString
+                varAttribs2(1).TextString = CStr(i)
+                varInsertionPoint(0) = varInsertionPoint(0)
+                varInsertionPoint(1) = varInsertionPoint(1) - 7
+                varInsertionPoint(2) = varInsertionPoint(2)
+            Else
+                For Each objBRef1 In objSelection10
+                    varAttribs1 = objBRef1.GetAttributes
+                    If varAttribs1(0).TextString = "DL" Then
+                        If varAttribs1(3).TextString = CStr(i) Then
+                            Exit For
+                        End If
+                    End If
+                Next objBRef1
+                Set objBRef2 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "TEXTO_INDEXDL_R00", 1, 1, 1, 0)
+                varAttribs2 = objBRef2.GetAttributes
+                varAttribs2(0).TextString = varAttribs1(5).TextString
+                varAttribs2(1).TextString = CStr(i)
+                varInsertionPoint(0) = varInsertionPoint(0)
+                varInsertionPoint(1) = varInsertionPoint(1) - 7
+                varInsertionPoint(2) = varInsertionPoint(2)
+            End If
+        End If
+        i = i + 1
+    Wend
+    objInsertionPoint(0) = objInsertionPoint(0) + 470
+    objInsertionPoint(1) = objInsertionPoint(1)
+    objInsertionPoint(2) = objInsertionPoint(2)
+    Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "FOLHA_DIAGRAMA_R02", 1, 1, 1, 0)
+    varAttribs1 = objBRef1.GetAttributes
+    varAttribs1(0).TextString = "DL"
+    varAttribs1(3).TextString = "LEGENDA"
+    varAttribs1(2).TextString = clp
+    varAttribs1(1).TextString = area
+    varAttribs1(4).TextString = UCase(CStr(shtObj.Cells(7, 2).Value + " - " + shtObj.Cells(7, 3).Value + " - " + shtObj.Cells(7, 4).Value + " \ DIAGRAMA LÓGICO"))
+    varAttribs1(5).TextString = "LEGENDA"
+    Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "LEGENDADL_R00", 1, 1, 1, 0)
+    ExpBlock objBRef1
+    objInsertionPoint(0) = objInsertionPoint(0) - 10.6305
+    objInsertionPoint(1) = objInsertionPoint(1) + 28.3865
+    objInsertionPoint(2) = objInsertionPoint(2)
+    ThisDrawing.ModelSpace.AddText("LEGENDA", objInsertionPoint, 70).Layer = "30$9$A"
+    
+    
+    n1 = 0
+    JUNK = CreateSelectionSets()
+    JUNK = GetObjectSelectionSet(CStr("FOLHA_DIAGRAMA_R02"), objSelection10)
+    
+    For Each objBRef1 In objSelection10
+        varAttribs1 = objBRef1.GetAttributes
+        If varAttribs1(0).TextString = "DC" Then
+            If CLng(varAttribs1(3).TextString) > n1 Then
+                n1 = CLng(varAttribs1(3).TextString)
+            End If
+        End If
+    Next objBRef1
+        
+    For Each objBRef1 In objSelection10
+        varAttribs1 = objBRef1.GetAttributes
+        If varAttribs1(0).TextString = "DC" Then
+            If varAttribs1(3).TextString = "ÍNDICE" Then
+                varInsertionPoint(0) = objBRef1.InsertionPoint(0)
+                varInsertionPoint(1) = objBRef1.InsertionPoint(1)
+                varInsertionPoint(2) = objBRef1.InsertionPoint(2)
+            End If
+        End If
+    Next objBRef1
+      
+    objInsertionPoint(0) = varInsertionPoint(0)
+    objInsertionPoint(1) = varInsertionPoint(1)
+    objInsertionPoint(2) = varInsertionPoint(2)
+    Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "INDICE_30_R00", 1, 1, 1, 0)
+    ExpBlock objBRef1
+    varInsertionPoint(0) = varInsertionPoint(0) + 42.4218
+    varInsertionPoint(1) = varInsertionPoint(1) - 39.54
+    varInsertionPoint(2) = varInsertionPoint(2)
+    
+    i = 1
+    While i <= n1
+        If i = 91 Then
+            varInsertionPoint(0) = varInsertionPoint(0) + 183.4824
+            varInsertionPoint(1) = varInsertionPoint(1) + 249.54
+            varInsertionPoint(2) = varInsertionPoint(2)
+            
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "FOLHA_DIAGRAMA_R02", 1, 1, 1, 0)
+            varAttribs1 = objBRef1.GetAttributes
+            varAttribs1(0).TextString = "DC"
+            varAttribs1(3).TextString = "ÍNDICE"
+            varAttribs1(2).TextString = clp
+            varAttribs1(1).TextString = area
+            varAttribs1(4).TextString = UCase(CStr(shtObj.Cells(7, 2).Value + " - " + shtObj.Cells(7, 3).Value + " - " + shtObj.Cells(7, 4).Value + " \ DIAGRAMA LÓGICO"))
+            varAttribs1(5).TextString = "ÍNDICE"
+            
+            objInsertionPoint(0) = varInsertionPoint(0)
+            objInsertionPoint(1) = varInsertionPoint(1)
+            objInsertionPoint(2) = varInsertionPoint(2)
+            
+            Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "INDICE_30_R00", 1, 1, 1, 0)
+            ExpBlock objBRef1
+            varInsertionPoint(0) = varInsertionPoint(0) + 42.4218
+            varInsertionPoint(1) = varInsertionPoint(1) - 39.54
+            varInsertionPoint(2) = varInsertionPoint(2)
+            
+            For Each objBRef1 In objSelection10
+                varAttribs1 = objBRef1.GetAttributes
+                If varAttribs1(0).TextString = "DC" Then
+                    If varAttribs1(3).TextString = CStr(i) Then
+                        Exit For
+                    End If
+                End If
+            Next objBRef1
+            Set objBRef2 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "TEXTO_INDEXDL_R00", 1, 1, 1, 0)
+            varAttribs2 = objBRef2.GetAttributes
+            varAttribs2(0).TextString = varAttribs1(5).TextString
+            varAttribs2(1).TextString = CStr(i)
+            varInsertionPoint(0) = varInsertionPoint(0)
+            varInsertionPoint(1) = varInsertionPoint(1) - 7
+            varInsertionPoint(2) = varInsertionPoint(2)
+        Else
+            If i <> 1 And i Mod 30 = 1 Then
+                varInsertionPoint(0) = varInsertionPoint(0) + 79.6261
+                varInsertionPoint(1) = varInsertionPoint(1) + 249.54
+                varInsertionPoint(2) = varInsertionPoint(2)
+                Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "INDICE_30_R00", 1, 1, 1, 0)
+                ExpBlock objBRef1
+                varInsertionPoint(0) = varInsertionPoint(0) + 42.4218
+                varInsertionPoint(1) = varInsertionPoint(1) - 39.54
+                varInsertionPoint(2) = varInsertionPoint(2)
+                For Each objBRef1 In objSelection10
+                    varAttribs1 = objBRef1.GetAttributes
+                    If varAttribs1(0).TextString = "DC" Then
+                        If varAttribs1(3).TextString = CStr(i) Then
+                            Exit For
+                        End If
+                    End If
+                Next objBRef1
+                Set objBRef2 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "TEXTO_INDEXDL_R00", 1, 1, 1, 0)
+                varAttribs2 = objBRef2.GetAttributes
+                varAttribs2(0).TextString = varAttribs1(5).TextString
+                varAttribs2(1).TextString = CStr(i)
+                varInsertionPoint(0) = varInsertionPoint(0)
+                varInsertionPoint(1) = varInsertionPoint(1) - 7
+                varInsertionPoint(2) = varInsertionPoint(2)
+            Else
+                For Each objBRef1 In objSelection10
+                    varAttribs1 = objBRef1.GetAttributes
+                    If varAttribs1(0).TextString = "DC" Then
+                        If varAttribs1(3).TextString = CStr(i) Then
+                            Exit For
+                        End If
+                    End If
+                Next objBRef1
+                Set objBRef2 = ThisDrawing.ModelSpace.InsertBlock(varInsertionPoint, "TEXTO_INDEXDL_R00", 1, 1, 1, 0)
+                varAttribs2 = objBRef2.GetAttributes
+                varAttribs2(0).TextString = varAttribs1(5).TextString
+                varAttribs2(1).TextString = CStr(i)
+                varInsertionPoint(0) = varInsertionPoint(0)
+                varInsertionPoint(1) = varInsertionPoint(1) - 7
+                varInsertionPoint(2) = varInsertionPoint(2)
+            End If
+        End If
+        i = i + 1
+    Wend
+    objInsertionPoint(0) = objInsertionPoint(0) + 470
+    objInsertionPoint(1) = objInsertionPoint(1)
+    objInsertionPoint(2) = objInsertionPoint(2)
+    Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "FOLHA_DIAGRAMA_R02", 1, 1, 1, 0)
+    varAttribs1 = objBRef1.GetAttributes
+    varAttribs1(0).TextString = "DC"
+    varAttribs1(3).TextString = "LEGENDA"
+    varAttribs1(2).TextString = clp
+    varAttribs1(1).TextString = area
+    varAttribs1(4).TextString = UCase(CStr(shtObj.Cells(7, 2).Value + " - " + shtObj.Cells(7, 3).Value + " - " + shtObj.Cells(7, 4).Value + " \ DIAGRAMA LÓGICO"))
+    varAttribs1(5).TextString = "LEGENDA"
+    Set objBRef1 = ThisDrawing.ModelSpace.InsertBlock(objInsertionPoint, "LEGENDADC_R00", 1, 1, 1, 0)
+    ExpBlock objBRef1
+    objInsertionPoint(0) = objInsertionPoint(0) - 10.6305
+    objInsertionPoint(1) = objInsertionPoint(1) + 28.3865
+    objInsertionPoint(2) = objInsertionPoint(2)
+    ThisDrawing.ModelSpace.AddText("LEGENDA", objInsertionPoint, 70).Layer = "30$9$A"
+End Sub
