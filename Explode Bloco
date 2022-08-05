@@ -1,0 +1,15 @@
+Sub ExpBlock(ByRef BR)
+
+    Dim varEx As Variant
+    Dim BRef As AcadBlockReference
+    Dim i As Double
+   
+    varEx = BR.Explode
+    BR.Delete
+    i = 0
+    If TypeOf varEx(i) Is AcadBlockReference Then
+        Set BRef = varEx(i)
+        ExpBlock BRef
+    End If
+
+End Sub
